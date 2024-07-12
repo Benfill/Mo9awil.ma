@@ -1,8 +1,12 @@
 import { Tooltip } from "react-tippy";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+
 
 export default function Payment(props) {
+  const navigate = useNavigate();
+
   const packPrice = parseFloat(props.price);
   const ADMIN_FEES = 2469;
   const TAX_RATE = 0.2;
@@ -44,6 +48,15 @@ export default function Payment(props) {
     props.handleSelection("choicesCompleted", true);
   }, []);
 
+  function checkLogin() {
+    const token = Cookies.get("token");
+    if (!token) {
+      localStorage.setItem('direction', "/services/creation_sarl/checkout");
+      navigate("/login");
+    } else navigate("/services/creation_sarl/checkout");
+    return;
+  }
+
   return (
     <div className="flex justify-center bg-white">
       <div className="w-full px-44 max-sm:px-2 max-md:px-6 max-lg:px-12 flex flex-col">
@@ -66,14 +79,25 @@ export default function Payment(props) {
               </div>
               <ol className="flex flex-col gap-4">
                 {props.pack.pack_features.map((feature, index) => (
-                  <li key={index} className="flex border-b pb-2 justify-between text-left text-blue-950 text-xl pl-2">
+                  <li
+                    key={index}
+                    className="flex border-b pb-2 justify-between text-left text-blue-950 text-xl pl-2"
+                  >
                     <div className="flex gap-2 w-90">
                       <span className="text-green-500 text-2xl">✔</span>
                       <span>{feature.feature}</span>
                     </div>
                     <div>
-                      <Tooltip title={feature.feature} position="right" trigger="mouseenter" interactive>
-                        <img src="https://assets-global.website-files.com/603544f36c95c822aaf84300/61124ad1b5a08dc8bd5d9ae0_Helper.svg" alt="info" />
+                      <Tooltip
+                        title={feature.feature}
+                        position="right"
+                        trigger="mouseenter"
+                        interactive
+                      >
+                        <img
+                          src="https://assets-global.website-files.com/603544f36c95c822aaf84300/61124ad1b5a08dc8bd5d9ae0_Helper.svg"
+                          alt="info"
+                        />
                       </Tooltip>
                     </div>
                   </li>
@@ -103,7 +127,10 @@ export default function Payment(props) {
                       trigger="mouseenter"
                       interactive
                     >
-                      <img src="https://assets-global.website-files.com/603544f36c95c822aaf84300/61124ad1b5a08dc8bd5d9ae0_Helper.svg" alt="info" />
+                      <img
+                        src="https://assets-global.website-files.com/603544f36c95c822aaf84300/61124ad1b5a08dc8bd5d9ae0_Helper.svg"
+                        alt="info"
+                      />
                     </Tooltip>
                   </div>
                 </li>
@@ -119,9 +146,10 @@ export default function Payment(props) {
                       trigger="mouseenter"
                       interactive
                     >
-                      <img src="https://assets-global.website-files.com/603544f36c95c822aaf84300/61124ad25fdaccb2d01b3fca_PaymentMastercard.svg"
-                      alt=""
-                    />
+                      <img
+                        src="https://assets-global.website-files.com/603544f36c95c822aaf84300/61124ad25fdaccb2d01b3fca_PaymentMastercard.svg"
+                        alt=""
+                      />
                     </Tooltip>
                   </div>
                 </li>
@@ -146,16 +174,24 @@ export default function Payment(props) {
                         name="payment-option"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
                       />
-                      <label htmlFor="bordered-radio-1" className="w-full text-left cursor-pointer ms-2 text-lg text-blue-950">
+                      <label
+                        htmlFor="bordered-radio-1"
+                        className="w-full text-left cursor-pointer ms-2 text-lg text-blue-950"
+                      >
                         Payer aujourd’hui seulement
                       </label>
                     </div>
-                    <label htmlFor="bordered-radio-1" className="cursor-pointer">
+                    <label
+                      htmlFor="bordered-radio-1"
+                      className="cursor-pointer"
+                    >
                       <h3 className="text-blue-950 flex justify-center">
                         <span className="font-black text-lg">
                           {packPrice.toFixed(2)} MAD
                         </span>{" "}
-                        <span className="text-blue-800 text-sm font-sans">HT</span>
+                        <span className="text-blue-800 text-sm font-sans">
+                          HT
+                        </span>
                       </h3>
                     </label>
                   </div>
@@ -164,7 +200,9 @@ export default function Payment(props) {
                     className="w-full flex items-start flex-col cursor-pointer ms-2 text-xl text-gray-400"
                   >
                     <p className="text-sm text-left w-90%">
-                      Vous réglez les frais administratifs obligatoires (+{ADMIN_FEES.toFixed(2)} MAD) lorsque votre dossier est validé (maximum 20 jours).
+                      Vous réglez les frais administratifs obligatoires (+
+                      {ADMIN_FEES.toFixed(2)} MAD) lorsque votre dossier est
+                      validé (maximum 20 jours).
                     </p>
                   </label>
                 </div>
@@ -181,16 +219,24 @@ export default function Payment(props) {
                         name="payment-option"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
                       />
-                      <label htmlFor="bordered-radio-2" className="w-full text-left cursor-pointer ms-2 text-lg text-blue-950">
+                      <label
+                        htmlFor="bordered-radio-2"
+                        className="w-full text-left cursor-pointer ms-2 text-lg text-blue-950"
+                      >
                         Payer la totalité
                       </label>
                     </div>
-                    <label htmlFor="bordered-radio-2" className="cursor-pointer">
+                    <label
+                      htmlFor="bordered-radio-2"
+                      className="cursor-pointer"
+                    >
                       <h3 className="text-blue-950 flex justify-center">
                         <span className="font-black text-lg">
                           {(packPrice + ADMIN_FEES).toFixed(2)} MAD
                         </span>{" "}
-                        <span className="text-blue-800 text-sm font-sans">HT</span>
+                        <span className="text-blue-800 text-sm font-sans">
+                          HT
+                        </span>
                       </h3>
                     </label>
                   </div>
@@ -201,7 +247,9 @@ export default function Payment(props) {
               <div className="py-4">
                 <div className="flex justify-between text-md">
                   <p className="text-blue-900 text-md">Montant HT</p>
-                  <p className="text-blue-900 text-md">{totalHt.toFixed(2)} MAD</p>
+                  <p className="text-blue-900 text-md">
+                    {totalHt.toFixed(2)} MAD
+                  </p>
                 </div>
                 <div className="flex justify-between text-md">
                   <p className="text-blue-900 text-md">TVA déductible</p>
@@ -209,19 +257,24 @@ export default function Payment(props) {
                 </div>
                 <div className="flex justify-between text-md">
                   <p className="text-blue-950 font-black text-md">TOTAL TTC</p>
-                  <p className="text-blue-900 text-md">{total.toFixed(2)} MAD</p>
+                  <p className="text-blue-900 text-md">
+                    {total.toFixed(2)} MAD
+                  </p>
                 </div>
               </div>
 
               <div className="py-4 flex flex-col gap-4">
-                <Link to="/services/creation_sarl/checkout">
-                  <button className="bg-blue-500 text-white text-lg font-lg w-full py-3 rounded-md">
-                    Payer en toute sécurité
-                  </button>
-                </Link>
+                <button
+                  onClick={checkLogin}
+                  className="bg-blue-500 text-white text-lg font-lg w-full py-3 rounded-md"
+                >
+                  Payer en toute sécurité
+                </button>
 
                 <Link to="/services/creation_sarl/checkout">
-                  <p className="text-md text-blue-500">Ajouter un code de réduction</p>
+                  <p className="text-md text-blue-500">
+                    Ajouter un code de réduction
+                  </p>
                 </Link>
                 <div className="flex justify-center gap-3">
                   <Link to="/services/creation_sarl/checkout">
@@ -261,7 +314,9 @@ export default function Payment(props) {
                       alt="Step 1"
                     />
                   </div>
-                  <p className="text-blue-950 text-lg">Choisissez votre pack et vos options</p>
+                  <p className="text-blue-950 text-lg">
+                    Choisissez votre pack et vos options
+                  </p>
                 </div>
                 <div className="py-2 border-l border-blue-950 mx-2"></div>
                 <div className="flex items-center gap-4">
@@ -281,7 +336,9 @@ export default function Payment(props) {
                       alt="Step 3"
                     />
                   </div>
-                  <p class="text-blue-950 text-lg">Finalisez votre dossier juridique</p>
+                  <p class="text-blue-950 text-lg">
+                    Finalisez votre dossier juridique
+                  </p>
                 </div>
                 <div className="py-2 border-l border-blue-950 mx-2"></div>
                 <div className="flex items-center gap-4">
@@ -301,7 +358,9 @@ export default function Payment(props) {
                       alt="Step 5"
                     />
                   </div>
-                  <p class="text-blue-950 text-lg">Un formaliste traite votre dossier</p>
+                  <p class="text-blue-950 text-lg">
+                    Un formaliste traite votre dossier
+                  </p>
                 </div>
                 <div className="py-2 border-l border-blue-950 mx-2"></div>
                 <div class="flex items-center gap-4">
@@ -311,7 +370,9 @@ export default function Payment(props) {
                       alt="Step 6"
                     />
                   </div>
-                  <p class="text-blue-950 text-lg">Votre dossier est envoyé au Greffe</p>
+                  <p class="text-blue-950 text-lg">
+                    Votre dossier est envoyé au Greffe
+                  </p>
                 </div>
                 <div class="py-2 border-l border-blue-950 mx-2"></div>
                 <div class="flex items-center gap-4">

@@ -1,16 +1,18 @@
 // Home.jsx
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../style/header.css";
 import "../../style/App.css";
 import { fetchData } from "../../utils/api";
 import { setGlobalState, useGlobalState } from "../../utils/globalState";
 import Faq from "../../components/front_office/Faq";
 import Footer from "../../components/front_office/Footer";
+import Cookies from "js-cookie";
 
 const Home = () => {
   const [isShown, setIsShown] = useState(true);
   const checkForm = localStorage.getItem("userChoices");
+  const navigate = useNavigate();
 
   function storedInfo() {
     let info = localStorage.getItem("userChoices");
@@ -32,13 +34,17 @@ const Home = () => {
   //   );
   // }
 
+  function handleDirection() {
+    localStorage.removeItem("direction");
+    navigate("login");
+  }
+
   function handleDashboard() {
-    window.location.href = "/app";
+    navigate("/app");
   }
   const storedInfoValue = storedInfo();
   useEffect(() => {
-    setIsShown(!localStorage.getItem("token") ? true : false);
-    console.log(localStorage.getItem("token"));
+    setIsShown(!Cookies.get("token") ? true : false);
   }, []);
   return (
     <>
@@ -63,16 +69,19 @@ const Home = () => {
               </div>
             )}
             {isShown && (
-              <Link to="Login" className="h-full">
-                <button className="h-full px-14 text-md border-0 py-2 text-white bg-orange-300 hover:bg-orange-200 font-bold">
+              <div className="h-full">
+                <button
+                  onClick={handleDirection}
+                  className="h-full px-14 text-md border-0 py-2 text-white bg-orange-300 hover:bg-orange-200 font-bold"
+                >
                   Se connecter
                 </button>
-              </Link>
+              </div>
             )}
             {!isShown && (
               <button
                 onClick={handleDashboard}
-                className="h-full px-14 text-sm py-2 font-medium text-bleu-600 bg-white outline-none hover:m-0 focus:m-0 border border-blue-600 hover:border-4 focus:border-4 hover:border-blue-800 hover:text-blue-800 focus:border-purple-200 active:border-grey-900 active:text-grey-900 transition-all"
+                className="h-full px-14 text-sm py-2 font-medium text-bleu-600 bg-white outline-none hover:m-0 focus:m-0 border-4 border-white-600 hover:border-4 focus:border-4 hover:border-cyan-800 hover:text-blue-800 focus:border-purple-200 active:border-grey-900 active:text-grey-900 transition-all"
               >
                 Dashboard
               </button>

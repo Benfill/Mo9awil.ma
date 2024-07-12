@@ -161,7 +161,20 @@ export default function OrderConfirmed() {
           process
         </p>
 
-        {!emailVerified && (
+        <div className="pb-6 flex flex-col gap-6">
+          <div>
+            <Link to="/app/proccess">
+              <button className="bg-blue-500 text-white py-2 rounded-md px-12">
+                Continuer
+              </button>
+            </Link>
+          </div>
+          <p className="text-gray-500">
+            Pour tout problème, n'hésitez pas à appeler au 0537******.
+          </p>
+        </div>
+
+        {/* {!emailVerified && (
           <>
             <div className="pb-6 flex flex-col gap-6">
               {showEmailInput && (
@@ -297,7 +310,7 @@ export default function OrderConfirmed() {
               changer l'e-mail.
             </p>
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );
