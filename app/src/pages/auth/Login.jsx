@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
 import "../../style/App.css";
 import { Alert } from "flowbite-react";
+import Cookies from "js-cookie";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,15 +14,23 @@ export default function Login() {
   const [alertColor, setAlertColor] = useState("info");
   const [alertText, setAlertText] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const navigate = useNavigate();
 
   function handelAlert(type, text) {
     setAlertColor(type);
     setAlertText(text);
     setShowAlert(true);
   }
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleLogin()
+    }
+  }
 
   function handleLogin() {
     setShowAlert(false);
+
+    const direction = localStorage.getItem("direction");
 
     if (email.length === 0) {
       handelAlert("failure", "L'emai est obligatoire");
@@ -30,8 +40,8 @@ export default function Login() {
 
       return;
     }
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    Cookies.remove("token");
+    Cookies.remove("user");
     setLoading(true);
     fetch("http://127.0.0.1:8000/api/login", {
       method: "post",
@@ -54,8 +64,8 @@ export default function Login() {
           return;
         }
         const user = responseData.data.user;
-        localStorage.setItem("token", responseData.data.token);
-        localStorage.setItem("user", JSON.stringify(responseData.data.user));
+        Cookies.set("token", responseData.data.token);
+        Cookies.set("user", JSON.stringify(user));
         handelAlert("success", "Vous êtes connecté avec succès.");
         // console.log(user.roles[0].role_name);
         // if (user.roles[0].role_name === "admin") {
@@ -64,7 +74,7 @@ export default function Login() {
         // }
 
         setTimeout(() => {
-          window.location.href = "/app";
+          navigate(direction ? direction : "/app");
         }, 1000);
       })
       .catch((error) => {
@@ -75,7 +85,7 @@ export default function Login() {
   }
 
   function handleFirstLogin() {
-    window.location.href = '/reset';
+    window.location.href = "/reset";
   }
 
   return (
@@ -150,6 +160,7 @@ export default function Login() {
           <input
             type="email"
             id="email"
+            onKeyDown={handleKeyDown}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={email}
             onChange={(e) => {
@@ -170,6 +181,7 @@ export default function Login() {
               <input
                 type="password"
                 id="password"
+                onKeyDown={handleKeyDown}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value={password}
                 onChange={(e) => {
@@ -206,20 +218,20 @@ export default function Login() {
               <button
                 type="button"
                 onClick={handleLogin}
+                onKeyDown={handleKeyDown}
                 className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Se connecter
               </button>
 
-              <Link to="/reset">
-              <button
-                type="button"
-                className="text-blue-900 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:hover:bg-gray-100"
-              >
-                Première Connexion
-              </button>
+              <Link to="/register">
+                <button
+                  type="button"
+                  className="text-blue-900 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:hover:bg-gray-100"
+                >
+                  Créer un Compte
+                </button>
               </Link>
-
             </>
           )}
         </div>
