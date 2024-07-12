@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Partner extends Model
+class CompanyActivity extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'partnerFullName',
-        'partnerAddress',
-        'partnerCardId',
-        'partnerBirth',
-        'manager',
-        'company_id'
+        "activity_id",
+        "company_id"
     ];
 }

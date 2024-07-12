@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('partners', function (Blueprint $table) {
+        Schema::create('company_associates', function (Blueprint $table) {
             $table->id();
-            $table->string('partnerFullName');
-            $table->string('partnerAddress');
-            $table->string('partnerCardId');
-            $table->string('partnerBirth');
-            $table->enum('manager', [true, false]);
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('associate_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('partners');
+        Schema::dropIfExists('company_associates');
     }
 };

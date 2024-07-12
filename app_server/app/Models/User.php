@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
     ];
 
@@ -54,5 +55,10 @@ class User extends Authenticatable
     function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    function companies(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Company::class);
     }
 }

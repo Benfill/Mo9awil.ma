@@ -10,11 +10,15 @@ class Manager extends Model
     use HasFactory;
 
     protected $fillable = [
-        'managerFullName',
-        'managerAddress',
-        'managerCardId',
-        'managerBirth',
-        'partner',
-        'company_id'
+        'name',
+        'address',
+        'cardId',
+        'birth',
+        'isAssociate',
     ];
+
+    function companies(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Company::class, 'company_managers', 'manager_id', 'company_id');
+    }
 }

@@ -12,18 +12,14 @@ return new class extends Migration {
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->string('managerFullName');
-            $table->string('managerAddress');
-            $table->string('managerCardId');
-            $table->string('managerBirth');
-            $table->enum('legalStatus', ['SARL', 'SARL AU']);
-            $table->enum('signing', ['conjoint', 'single']);
             $table->string('companyName')->nullable();
             $table->string('companyAddress')->nullable();
             $table->integer('capital')->nullable();
-            $table->foreignId('activity_id')->constrained()->cascadeOnDelete();
+            $table->enum('legalStatus', ['SARL', 'SARL AU', 'SA']);
+            $table->enum('signing', ['conjoint', 'single']);
             $table->foreignId('city_id')->constrained()->cascadeOnDelete();
-            $table->enum('status', ['in progress', 'created', 'rejected', 'canceled']);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->enum('status', ['in progress', 'created', 'rejected', 'canceled'])->default('in progress');
             $table->timestamps();
         });
     }

@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class CompanyAssociate extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'activity_name'
+        'associate_id',
+        'company_id'
     ];
-
-    function company(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Company::class);
-    }
 }

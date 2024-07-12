@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->string('city_name');
-            $table->string('tribunal_genre');
+            $table->string('tribunal_genre')->nullable();
             $table->timestamps();
         });
     }

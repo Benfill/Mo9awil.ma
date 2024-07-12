@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('negative_certificates', function (Blueprint $table) {
+        Schema::create('company_managers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained()->cascadeOnDelete();
-            $table->string('firstName')->unique();
-            $table->string('secondName')->unique();
-            $table->string('thirdName')->unique();
-            $table->enum('status', ['in progress', 'validated', 'rejected'])->default('in progress');
+            $table->foreignId('manager_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pack_negative_certificates');
+        Schema::dropIfExists('company_managers');
     }
 };

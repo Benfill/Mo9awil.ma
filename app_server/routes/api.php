@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\OrderController;
@@ -16,7 +17,6 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('emailVerification', [EmailVerificationController::class, 'firstLogin']);
 Route::post('validEmail', [EmailVerificationController::class, 'validEmail']);
 Route::post('register', [AuthController::class, 'register']);
-Route::get('/test/{id}', [RoleController::class, 'getUserRoleAndPermissions']);
 
 
 Route::get('/packs', [PackController::class, 'index']);
@@ -63,6 +63,12 @@ Route::middleware('auth:api')->group(function () {
         Route::prefix('orders')->group(function () {
             Route::get('/getMyOrders', [OrderController::class, 'getMyOrders']);
             Route::get('', [OrderController::class, 'index']);
+        });
+
+        Route::prefix('companies')->group(function () {
+            Route::post('', [CompanyController::class, 'store']);
+            Route::get('', [CompanyController::class, 'index']);
+            Route::get('/getCitiesNActivities', [CompanyController::class, 'getCitiesNActivities']);
         });
 
     });

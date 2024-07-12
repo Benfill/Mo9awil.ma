@@ -41,7 +41,7 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'passport', // Use Passport for API authentication
+            'driver' => 'passport',
             'provider' => 'users',
         ],
     ],

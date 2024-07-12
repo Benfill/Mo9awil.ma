@@ -15,7 +15,8 @@ class PromoCodeSeeder extends Seeder
     {
         $promoCode = [
             'reduction_code' => 'MO9AWIL100',
-            'reduction_percentage' => 15
+            'reduction_percentage' => 15,
+            'pack_id' => 1
         ];
 
         PromoCode::create($promoCode);

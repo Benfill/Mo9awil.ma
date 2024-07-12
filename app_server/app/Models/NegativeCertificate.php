@@ -10,9 +10,15 @@ class NegativeCertificate extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_id',
         'firstName',
         'secondName',
-        'lastName',
+        'thirdName',
         'status',
     ];
+
+    function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
 }
